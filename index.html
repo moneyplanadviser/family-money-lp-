@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Family Money | 家計診断チェックシート</title>
+   <style>
+       * {
+           margin: 0;
+           padding: 0;
+           box-sizing: border-box;
+       }
+
+       body {
+           font-family: 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Meiryo', sans-serif;
+           line-height: 1.8;
+           color: #333;
+           background-color: #f9f9f9;
+       }
+
+       header {
+           background-color: #fff;
+           padding: 20px 0;
+           box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+           position: sticky;
+           top: 0;
+           z-index: 100;
+       }
+
+       .header-content {
+           max-width: 1200px;
+           margin: 0 auto;
+           padding: 0 20px;
+           display: flex;
+           justify-content: space-between;
+           align-items: center;
+       }
+
+       .logo {
+           font-size: 24px;
+           font-weight: bold;
+           color: #2c5282;
+       }
+
+       nav a {
+           margin-left: 30px;
+           text-decoration: none;
+           color: #555;
+           font-weight: 500;
+           transition: color 0.3s;
+       }
+
+       nav a:hover {
+           color: #2c5282;
+       }
+
+       .hero {
+           background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+           color: white;
+           padding: 80px 20px;
+           text-align: center;
+       }
+
+       .hero h1 {
+           font-size: 2.5em;
+           margin-bottom: 20px;
+           line-height: 1.4;
+       }
+
+       .hero p {
+           font-size: 1.1em;
+           max-width: 800px;
+           margin: 0 auto;
+           opacity: 0.95;
+       }
+
+       .container {
+           max-width: 1200px;
+           margin: 0 auto;
+           padding: 60px 20px;
+       }
+
+       .section {
+           background: white;
+           border-radius: 12px;
+           padding: 40px;
+           margin-bottom: 40px;
+           box-shadow: 0 4px 6px rgba(0,0,0,0.07);
+       }
+
+       .section h2 {
+           font-size: 2em;
+           color: #2c5282;
+           margin-bottom: 20px;
+           border-bottom: 3px solid #667eea;
+           padding-bottom: 10px;
+       }
+
+       .section h3 {
+           font-size: 1.5em;
+           color: #4a5568;
+           margin-top: 30px;
+           margin-bottom: 15px;
+       }
+
+       .hero-image {
+           max-width: 100%;
+           height: auto;
+           border-radius: 12px;
+           margin: 30px 0;
+           box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+       }
+
+       .flow-grid {
+           display: grid;
+           grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+           gap: 30px;
+           margin-top: 30px;
+       }
+
+       .flow-card {
+           background: #f7fafc;
+           padding: 25px;
+           border-radius: 8px;
+           border-left: 4px solid #667eea;
+       }
+
+       .checklist-category {
+           margin-bottom: 40px;
+       }
+
+       .checklist-category h3 {
+           background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+           color: white;
+           padding: 15px 20px;
+           border-radius: 8px;
+           margin-bottom: 20px;
+       }
+
+       .checklist-item {
+           display: flex;
+           align-items: center;
+           padding: 12px 20px;
+           margin-bottom: 10px;
+           background: #f7fafc;
+           border-radius: 6px;
+           transition: background 0.3s;
+       }
+
+       .checklist-item:hover {
+           background: #e6f2ff;
+       }
+
+       .checklist-item input[type="checkbox"] {
+           width: 20px;
+           height: 20px;
+           margin-right: 15px;
+           cursor: pointer;
+       }
+
+       .score-display {
+           background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+           color: white;
+           padding: 20px;
+           border-radius: 8px;
+           text-align: center;
+           font-size: 1.5em;
+           margin: 30px 0;
+           font-weight: bold;
+       }
+
+       .results-grid {
+           display: grid;
+           grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+           gap: 30px;
+           margin-top: 30px;
+       }
+
+       .result-card {
+           background: white;
+           border: 2px solid #e2e8f0;
+           border-radius: 12px;
+           padding: 30px;
+           transition: transform 0.3s, box-shadow 0.3s;
+       }
+
+       .result-card:hover {
+           transform: translateY(-5px);
+           box-shadow: 0 12px 24px rgba(0,0,0,0.1);
+       }
+
+       .level-badge {
+           display: inline-block;
+           padding: 8px 20px;
+           border-radius: 20px;
+           font-weight: bold;
+           margin-bottom: 15px;
+           font-size: 0.9em;
+       }
+
+       .level-1 { background: #fed7d7; color: #c53030; }
+       .level-2 { background: #feebc8; color: #c05621; }
+       .level-3 { background: #c6f6d5; color: #276749; }
+       .level-4 { background: #bee3f8; color: #2c5282; }
+
+       .result-card h4 {
+           font-size: 1.3em;
+           margin-bottom: 10px;
+           color: #2d3748;
+       }
+
+       .result-card p {
+           color: #4a5568;
+           margin-bottom: 15px;
+       }
+
+       .cta-button {
+           display: inline-block;
+           background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+           color: white;
+           padding: 12px 30px;
+           border-radius: 25px;
+           text-decoration: none;
+           font-weight: bold;
+           transition: transform 0.3s, box-shadow 0.3s;
+       }
+
+       .cta-button:hover {
+           transform: translateY(-2px);
+           box-shadow: 0 8px 16px rgba(102, 126, 234, 0.4);
+       }
+
+       footer {
+           background: #2d3748;
+           color: white;
+           padding: 40px 20px;
+           text-align: center;
+       }
+
+       .footer-content {
+           max-width: 1200px;
+           margin: 0 auto;
+       }
+
+       .footer-brand {
+           font-size: 1.5em;
+           font-weight: bold;
+           margin-bottom: 15px;
+       }
+
+       .footer-tagline {
+           margin-bottom: 20px;
+           opacity: 0.9;
+       }
+
+       .social-links {
+           margin: 20px 0;
+       }
+
+       .social-links a {
+           color: white;
+           text-decoration: none;
+           margin: 0 15px;
+           font-size: 1.1em;
+           transition: opacity 0.3s;
+       }
+
+       .social-links a:hover {
+           opacity: 0.7;
+       }
+
+       .copyright {
+           margin-top: 20px;
+           opacity: 0.7;
+           font-size: 0.9em;
+       }
+
+       @media (max-width: 768px) {
+           .hero h1 {
+               font-size: 1.8em;
+           }
+
+           .section {
+               padding: 25px;
+           }
+
+           nav a {
+               margin-left: 15px;
+               font-size: 0.9em;
+           }
+       }
+   </style>
+</head>
+<body>
+   <header>
+       <div class="header-content">
+           <div class="logo">Family Money</div>
+           <nav>
+               <a href="#about">診断とは</a>
+               <a href="#checklist">チェックシート</a>
+               <a href="#results">診断結果</a>
+           </nav>
+       </div>
+   </header>
+
+   <section class="hero">
+       <h1>家計診断チェックシート</h1>
+   </section>
+
+   <div class="container">
+       <section class="section" id="about">
+           <img src="https://api.felo.ai/images/s/4bjhQ55oVY" alt="Clean Japanese Living Room" class="hero-image">
+           
+           <h2>あなたの家計の「整え力」を可視化する</h2>
+           <p style="font-size: 1.1em; margin-top: 20px;">
+               共働き世帯・子育て家庭・将来のお金に不安を抱えるあなたへ。<br>
+               40のチェック項目で、家計の強みと改善ポイントをひと目で把握しましょう。
+           </p>
+
+           <h3>診断の流れ</h3>
+           <p>現状を知ることが、家計改善の第一歩です。</p>
+
+           <div class="flow-grid">
+               <div class="flow-card">
+                   <h4>4つの視点で分析</h4>
+                   <p>このシートでは、単なる数字だけでなく、「習慣」や「感情」も含めた多角的な視点で家計を診断します。</p>
+               </div>
+           </div>
+       </section>
+
+       <section class="section" id="checklist">
+           <h2>家計タイプ診断シート</h2>
+           <p>当てはまる項目にチェックを入れてください。</p>
+
+           <div class="score-display">
+               現在のスコア: <span id="score">0</span> / 40
+           </div>
+
+           <div class="checklist-category">
+               <h3>1. お金の見える化</h3>
+               <div class="checklist-item">
+                   <input type="checkbox" class="check-item">
+                   <label>毎月の支出額を把握している</label>
+               </div>
+               <div class="checklist-item">
+                   <input type="checkbox" class="check-item">
+                   <label>固定費の内訳をすぐに言える</label>
+               </div>
+               <div class="checklist-item">
+                   <input type="checkbox" class="check-item">
+                   <label>家計簿アプリ等を半年以上継続している</label>
+               </div>
+               <div class="checklist-item">
+                   <input type="checkbox" class="check-item">
+                   <label>クレカ・口座の紐付けが整理できている</label>
+               </div>
+               <div class="checklist-item">
+                   <input type="checkbox" class="check-item">
+                   <label>使途不明金が月5,000円以内</label>
+               </div>
+               <div class="checklist-item">
+                   <input type="checkbox" class="check-item">
+                   <label>特別費(イベント・医療費等)を把握している</label>
+               </div>
+               <div class="checklist-item">
+                   <input type="checkbox" class="check-item">
+                   <label>子供の教育費をざっくり見積もれている</label>
+               </div>
+               <div class="checklist-item">
+                   <input type="checkbox" class="check-item">
+                   <label>住宅ローンの返済計画を理解している</label>
+               </div>
+               <div class="checklist-item">
+                   <input type="checkbox" class="check-item">
+                   <label>今月あといくら使えるか把握している</label>
+               </div>
+               <div class="checklist-item">
+                   <input type="checkbox" class="check-item">
+                   <label>年間の家計リズムを把握している</label>
+               </div>
+           </div>
+
+           <div class="checklist-category">
+               <h3>2. お金の使い方</h3>
+               <div class="checklist-item">
+                   <input type="checkbox" class="check-item">
+                   <label>衝動買いは月1回以下</label>
+               </div>
+               <div class="checklist-item">
+                   <input type="checkbox" class="check-item">
+                   <label>ストレスによる無意識消費が減少</label>
+               </div>
+               <div class="checklist-item">
+                   <input type="checkbox" class="check-item">
+                   <label>自分にとっての「価値ある支出」が明確</label>
+               </div>
+               <div class="checklist-item">
+                   <input type="checkbox" class="check-item">
+                   <label>旅行やレジャーに罪悪感なく使える</label>
+               </div>
+               <div class="checklist-item">
+                   <input type="checkbox" class="check-item">
+                   <label>セールで不要なものを買わない</label>
+               </div>
+               <div class="checklist-item">
+                   <input type="checkbox" class="check-item">
+                   <label>子供の習い事を比較・決定的</label>
+               </div>
+               <div class="checklist-item">
+                   <input type="checkbox" class="check-item">
+                   <label>食費は満足度に見合った支出で必要十分</label>
+               </div>
+               <div class="checklist-item">
+                   <input type="checkbox" class="check-item">
+                   <label>ご褒美買いがルール化されている</label>
+               </div>
+               <div class="checklist-item">
+                   <input type="checkbox" class="check-item">
+                   <label>値段より必要かどうかで判断している</label>
+               </div>
+               <div class="checklist-item">
+                   <input type="checkbox" class="check-item">
+                   <label>広告・SNSの影響で買い物を決定しない</label>
+               </div>
+           </div>
+
+           <div class="checklist-category">
+               <h3>3. 感情と習慣</h3>
+               <div class="checklist-item">
+                   <input type="checkbox" class="check-item">
+                   <label>節約に疲れを感じていない</label>
+               </div>
+               <div class="checklist-item">
+                   <input type="checkbox" class="check-item">
+                   <label>家計の話を夫婦で定期的にしている</label>
+               </div>
+               <div class="checklist-item">
+                   <input type="checkbox" class="check-item">
+                   <label>家計で「責める会話」がない</label>
+               </div>
+               <div class="checklist-item">
+                   <input type="checkbox" class="check-item">
+                   <label>家族の価値観を大切にした選択ができている</label>
+               </div>
+               <div class="checklist-item">
+                   <input type="checkbox" class="check-item">
+                   <label>自分も家族も大切にお金を使えている</label>
+               </div>
+               <div class="checklist-item">
+                   <input type="checkbox" class="check-item">
+                   <label>長期目線で判断できている</label>
+               </div>
+               <div class="checklist-item">
+                   <input type="checkbox" class="check-item">
+                   <label>買い物の振り返りを月1回している</label>
+               </div>
+               <div class="checklist-item">
+                   <input type="checkbox" class="check-item">
+                   <label>睡眠・健康にお金を使えている</label>
+               </div>
+               <div class="checklist-item">
+                   <input type="checkbox" class="check-item">
+                   <label>家計において「正解探し」をしていない</label>
+               </div>
+               <div class="checklist-item">
+                   <input type="checkbox" class="check-item">
+                   <label>ストレスの逃げ場としてお金を使わない</label>
+               </div>
+           </div>
+
+           <div class="checklist-category">
+               <h3>4. お金の仕組み</h3>
+               <div class="checklist-item">
+                   <input type="checkbox" class="check-item">
+                   <label>生活費・貯金・特別費の口座が分かれている</label>
+               </div>
+               <div class="checklist-item">
+                   <input type="checkbox" class="check-item">
+                   <label>給与口座から自動で貯金が引き落とせている</label>
+               </div>
+               <div class="checklist-item">
+                   <input type="checkbox" class="check-item">
+                   <label>"使いすぎ防止"の仕組みができている</label>
+               </div>
+               <div class="checklist-item">
+                   <input type="checkbox" class="check-item">
+                   <label>クレカ利用額を家計で予測できている</label>
+               </div>
+               <div class="checklist-item">
+                   <input type="checkbox" class="check-item">
+                   <label>NISA/iDeCo各種を最低限活用できている</label>
+               </div>
+               <div class="checklist-item">
+                   <input type="checkbox" class="check-item">
+                   <label>保険は必要なものだけに絞れている</label>
+               </div>
+               <div class="checklist-item">
+                   <input type="checkbox" class="check-item">
+                   <label>ボーナスの使い道が決まっている</label>
+               </div>
+               <div class="checklist-item">
+                   <input type="checkbox" class="check-item">
+                   <label>年1回の家計メンテナンスをしている</label>
+               </div>
+               <div class="checklist-item">
+                   <input type="checkbox" class="check-item">
+                   <label>月5万円以上の赤字が続く口座の仕組みはない</label>
+               </div>
+               <div class="checklist-item">
+                   <input type="checkbox" class="check-item">
+                   <label>「お金の流れ」を家族が共有できている</label>
+               </div>
+           </div>
+       </section>
+
+       <section class="section" id="results">
+           <h2>診断結果</h2>
+           <p>チェック数を合計して、あなたのレベルを確認しましょう。</p>
+
+           <div class="results-grid">
+               <div class="result-card">
+                   <span class="level-badge level-1">Level 1 (入門)</span>
+                   <h4>0〜10個</h4>
+                   <p><strong>まずは「見えない不安」が大きい時期。<br>家計の見える化が最優先。</strong></p>
+                   <p>何から手をつけたらいいかわからない状態かもしれません。まずは現状を把握することから始めましょう。</p>
+                   <a href="https://coconala.com/services/3957682" class="cta-button">改善の第一歩へ</a>
+               </div>
+
+               <div class="result-card">
+                   <span class="level-badge level-2">Level 2 (基礎)</span>
+                   <h4>11〜20個</h4>
+                   <p><strong>整える準備段階。<br>固定費と仕組み化で一気にラクに。</strong></p>
+                   <p>基礎はできています。固定費の見直しや自動化の仕組みを取り入れることで、貯金体質へ近づけます。</p>
+                   <a href="https://coconala.com/services/3957682" class="cta-button">土台を整える</a>
+               </div>
+
+               <div class="result-card">
+                   <span class="level-badge level-3">Level 3 (実務)</span>
+                   <h4>21〜30個</h4>
+                   <p><strong>家計の質を高めるフェーズ。<br>未来設計まで整えると家計が軽くなります。</strong></p>
+                   <p>かなり管理できています。これからは長期的な視点で、ライフプランに合わせた資金計画を立てましょう。</p>
+                   <a href="https://coconala.com/services/3957708" class="cta-button">未来設計に進む</a>
+               </div>
+
+               <div class="result-card">
+                   <span class="level-badge level-4">Level 4 (上級者)</span>
+                   <h4>31〜40個</h4>
+                   <p><strong>基礎も感情管理も整っている状態。<br>未来の家計設計が次のステップ。</strong></p>
+                   <p>素晴らしい状態です！今の状態を維持しつつ、投資や資産運用など、お金を「増やす」ステージへ。</p>
+                   <a href="https://coconala.com/services/3957708" class="cta-button">次のステージへ</a>
+               </div>
+           </div>
+       </section>
+   </div>
+
+   <footer>
+       <div class="footer-content">
+           <div class="footer-brand">Family Money</div>
+           <div class="footer-tagline">家計改善で、家族の未来をもっと明るく。</div>
+           <div class="social-links">
+               <a href="#" aria-label="Twitter">Twitter</a>
+               <a href="#" aria-label="Instagram">Instagram</a>
+           </div>
+           <div class="copyright">© 2025 keita. All rights reserved.</div>
+       </div>
+   </footer>
+
+   <script>
+       // チェックボックスのスコア計算機能
+       const checkboxes = document.querySelectorAll('.check-item');
+       const scoreDisplay = document.getElementById('score');
+
+       checkboxes.forEach(checkbox => {
+           checkbox.addEventListener('change', updateScore);
+       });
+
+       function updateScore() {
+           const checkedCount = document.querySelectorAll('.check-item:checked').length;
+           scoreDisplay.textContent = checkedCount;
+       }
+   </script>
+</body>
+</html>
