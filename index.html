@@ -125,6 +125,12 @@
            border-left: 4px solid #667eea;
        }
 
+       .flow-card h4 {
+           font-size: 1.2em;
+           color: #2c5282;
+           margin-bottom: 10px;
+       }
+
        .checklist-category {
            margin-bottom: 40px;
        }
@@ -156,6 +162,11 @@
            height: 20px;
            margin-right: 15px;
            cursor: pointer;
+       }
+
+       .checklist-item label {
+           cursor: pointer;
+           user-select: none;
        }
 
        .score-display {
@@ -284,9 +295,21 @@
                padding: 25px;
            }
 
+           .section h2 {
+               font-size: 1.6em;
+           }
+
            nav a {
                margin-left: 15px;
                font-size: 0.9em;
+           }
+
+           .flow-grid {
+               grid-template-columns: 1fr;
+           }
+
+           .results-grid {
+               grid-template-columns: 1fr;
            }
        }
    </style>
@@ -339,176 +362,176 @@
            <div class="checklist-category">
                <h3>1. お金の見える化</h3>
                <div class="checklist-item">
-                   <input type="checkbox" class="check-item">
-                   <label>毎月の支出額を把握している</label>
+                   <input type="checkbox" class="check-item" id="check1-1">
+                   <label for="check1-1">毎月の支出額を把握している</label>
                </div>
                <div class="checklist-item">
-                   <input type="checkbox" class="check-item">
-                   <label>固定費の内訳をすぐに言える</label>
+                   <input type="checkbox" class="check-item" id="check1-2">
+                   <label for="check1-2">固定費の内訳をすぐに言える</label>
                </div>
                <div class="checklist-item">
-                   <input type="checkbox" class="check-item">
-                   <label>家計簿アプリ等を半年以上継続している</label>
+                   <input type="checkbox" class="check-item" id="check1-3">
+                   <label for="check1-3">家計簿アプリ等を半年以上継続している</label>
                </div>
                <div class="checklist-item">
-                   <input type="checkbox" class="check-item">
-                   <label>クレカ・口座の紐付けが整理できている</label>
+                   <input type="checkbox" class="check-item" id="check1-4">
+                   <label for="check1-4">クレカ・口座の紐付けが整理できている</label>
                </div>
                <div class="checklist-item">
-                   <input type="checkbox" class="check-item">
-                   <label>使途不明金が月5,000円以内</label>
+                   <input type="checkbox" class="check-item" id="check1-5">
+                   <label for="check1-5">使途不明金が月5,000円以内</label>
                </div>
                <div class="checklist-item">
-                   <input type="checkbox" class="check-item">
-                   <label>特別費(イベント・医療費等)を把握している</label>
+                   <input type="checkbox" class="check-item" id="check1-6">
+                   <label for="check1-6">特別費(イベント・医療費等)を把握している</label>
                </div>
                <div class="checklist-item">
-                   <input type="checkbox" class="check-item">
-                   <label>子供の教育費をざっくり見積もれている</label>
+                   <input type="checkbox" class="check-item" id="check1-7">
+                   <label for="check1-7">子供の教育費をざっくり見積もれている</label>
                </div>
                <div class="checklist-item">
-                   <input type="checkbox" class="check-item">
-                   <label>住宅ローンの返済計画を理解している</label>
+                   <input type="checkbox" class="check-item" id="check1-8">
+                   <label for="check1-8">住宅ローンの返済計画を理解している</label>
                </div>
                <div class="checklist-item">
-                   <input type="checkbox" class="check-item">
-                   <label>今月あといくら使えるか把握している</label>
+                   <input type="checkbox" class="check-item" id="check1-9">
+                   <label for="check1-9">今月あといくら使えるか把握している</label>
                </div>
                <div class="checklist-item">
-                   <input type="checkbox" class="check-item">
-                   <label>年間の家計リズムを把握している</label>
+                   <input type="checkbox" class="check-item" id="check1-10">
+                   <label for="check1-10">年間の家計リズムを把握している</label>
                </div>
            </div>
 
            <div class="checklist-category">
                <h3>2. お金の使い方</h3>
                <div class="checklist-item">
-                   <input type="checkbox" class="check-item">
-                   <label>衝動買いは月1回以下</label>
+                   <input type="checkbox" class="check-item" id="check2-1">
+                   <label for="check2-1">衝動買いは月1回以下</label>
                </div>
                <div class="checklist-item">
-                   <input type="checkbox" class="check-item">
-                   <label>ストレスによる無意識消費が減少</label>
+                   <input type="checkbox" class="check-item" id="check2-2">
+                   <label for="check2-2">ストレスによる無意識消費が減少</label>
                </div>
                <div class="checklist-item">
-                   <input type="checkbox" class="check-item">
-                   <label>自分にとっての「価値ある支出」が明確</label>
+                   <input type="checkbox" class="check-item" id="check2-3">
+                   <label for="check2-3">自分にとっての「価値ある支出」が明確</label>
                </div>
                <div class="checklist-item">
-                   <input type="checkbox" class="check-item">
-                   <label>旅行やレジャーに罪悪感なく使える</label>
+                   <input type="checkbox" class="check-item" id="check2-4">
+                   <label for="check2-4">旅行やレジャーに罪悪感なく使える</label>
                </div>
                <div class="checklist-item">
-                   <input type="checkbox" class="check-item">
-                   <label>セールで不要なものを買わない</label>
+                   <input type="checkbox" class="check-item" id="check2-5">
+                   <label for="check2-5">セールで不要なものを買わない</label>
                </div>
                <div class="checklist-item">
-                   <input type="checkbox" class="check-item">
-                   <label>子供の習い事を比較・決定的</label>
+                   <input type="checkbox" class="check-item" id="check2-6">
+                   <label for="check2-6">子供の習い事を比較・決定的</label>
                </div>
                <div class="checklist-item">
-                   <input type="checkbox" class="check-item">
-                   <label>食費は満足度に見合った支出で必要十分</label>
+                   <input type="checkbox" class="check-item" id="check2-7">
+                   <label for="check2-7">食費は満足度に見合った支出で必要十分</label>
                </div>
                <div class="checklist-item">
-                   <input type="checkbox" class="check-item">
-                   <label>ご褒美買いがルール化されている</label>
+                   <input type="checkbox" class="check-item" id="check2-8">
+                   <label for="check2-8">ご褒美買いがルール化されている</label>
                </div>
                <div class="checklist-item">
-                   <input type="checkbox" class="check-item">
-                   <label>値段より必要かどうかで判断している</label>
+                   <input type="checkbox" class="check-item" id="check2-9">
+                   <label for="check2-9">値段より必要かどうかで判断している</label>
                </div>
                <div class="checklist-item">
-                   <input type="checkbox" class="check-item">
-                   <label>広告・SNSの影響で買い物を決定しない</label>
+                   <input type="checkbox" class="check-item" id="check2-10">
+                   <label for="check2-10">広告・SNSの影響で買い物を決定しない</label>
                </div>
            </div>
 
            <div class="checklist-category">
                <h3>3. 感情と習慣</h3>
                <div class="checklist-item">
-                   <input type="checkbox" class="check-item">
-                   <label>節約に疲れを感じていない</label>
+                   <input type="checkbox" class="check-item" id="check3-1">
+                   <label for="check3-1">節約に疲れを感じていない</label>
                </div>
                <div class="checklist-item">
-                   <input type="checkbox" class="check-item">
-                   <label>家計の話を夫婦で定期的にしている</label>
+                   <input type="checkbox" class="check-item" id="check3-2">
+                   <label for="check3-2">家計の話を夫婦で定期的にしている</label>
                </div>
                <div class="checklist-item">
-                   <input type="checkbox" class="check-item">
-                   <label>家計で「責める会話」がない</label>
+                   <input type="checkbox" class="check-item" id="check3-3">
+                   <label for="check3-3">家計で「責める会話」がない</label>
                </div>
                <div class="checklist-item">
-                   <input type="checkbox" class="check-item">
-                   <label>家族の価値観を大切にした選択ができている</label>
+                   <input type="checkbox" class="check-item" id="check3-4">
+                   <label for="check3-4">家族の価値観を大切にした選択ができている</label>
                </div>
                <div class="checklist-item">
-                   <input type="checkbox" class="check-item">
-                   <label>自分も家族も大切にお金を使えている</label>
+                   <input type="checkbox" class="check-item" id="check3-5">
+                   <label for="check3-5">自分も家族も大切にお金を使えている</label>
                </div>
                <div class="checklist-item">
-                   <input type="checkbox" class="check-item">
-                   <label>長期目線で判断できている</label>
+                   <input type="checkbox" class="check-item" id="check3-6">
+                   <label for="check3-6">長期目線で判断できている</label>
                </div>
                <div class="checklist-item">
-                   <input type="checkbox" class="check-item">
-                   <label>買い物の振り返りを月1回している</label>
+                   <input type="checkbox" class="check-item" id="check3-7">
+                   <label for="check3-7">買い物の振り返りを月1回している</label>
                </div>
                <div class="checklist-item">
-                   <input type="checkbox" class="check-item">
-                   <label>睡眠・健康にお金を使えている</label>
+                   <input type="checkbox" class="check-item" id="check3-8">
+                   <label for="check3-8">睡眠・健康にお金を使えている</label>
                </div>
                <div class="checklist-item">
-                   <input type="checkbox" class="check-item">
-                   <label>家計において「正解探し」をしていない</label>
+                   <input type="checkbox" class="check-item" id="check3-9">
+                   <label for="check3-9">家計において「正解探し」をしていない</label>
                </div>
                <div class="checklist-item">
-                   <input type="checkbox" class="check-item">
-                   <label>ストレスの逃げ場としてお金を使わない</label>
+                   <input type="checkbox" class="check-item" id="check3-10">
+                   <label for="check3-10">ストレスの逃げ場としてお金を使わない</label>
                </div>
            </div>
 
            <div class="checklist-category">
                <h3>4. お金の仕組み</h3>
                <div class="checklist-item">
-                   <input type="checkbox" class="check-item">
-                   <label>生活費・貯金・特別費の口座が分かれている</label>
+                   <input type="checkbox" class="check-item" id="check4-1">
+                   <label for="check4-1">生活費・貯金・特別費の口座が分かれている</label>
                </div>
                <div class="checklist-item">
-                   <input type="checkbox" class="check-item">
-                   <label>給与口座から自動で貯金が引き落とせている</label>
+                   <input type="checkbox" class="check-item" id="check4-2">
+                   <label for="check4-2">給与口座から自動で貯金が引き落とせている</label>
                </div>
                <div class="checklist-item">
-                   <input type="checkbox" class="check-item">
-                   <label>"使いすぎ防止"の仕組みができている</label>
+                   <input type="checkbox" class="check-item" id="check4-3">
+                   <label for="check4-3">"使いすぎ防止"の仕組みができている</label>
                </div>
                <div class="checklist-item">
-                   <input type="checkbox" class="check-item">
-                   <label>クレカ利用額を家計で予測できている</label>
+                   <input type="checkbox" class="check-item" id="check4-4">
+                   <label for="check4-4">クレカ利用額を家計で予測できている</label>
                </div>
                <div class="checklist-item">
-                   <input type="checkbox" class="check-item">
-                   <label>NISA/iDeCo各種を最低限活用できている</label>
+                   <input type="checkbox" class="check-item" id="check4-5">
+                   <label for="check4-5">NISA/iDeCo各種を最低限活用できている</label>
                </div>
                <div class="checklist-item">
-                   <input type="checkbox" class="check-item">
-                   <label>保険は必要なものだけに絞れている</label>
+                   <input type="checkbox" class="check-item" id="check4-6">
+                   <label for="check4-6">保険は必要なものだけに絞れている</label>
                </div>
                <div class="checklist-item">
-                   <input type="checkbox" class="check-item">
-                   <label>ボーナスの使い道が決まっている</label>
+                   <input type="checkbox" class="check-item" id="check4-7">
+                   <label for="check4-7">ボーナスの使い道が決まっている</label>
                </div>
                <div class="checklist-item">
-                   <input type="checkbox" class="check-item">
-                   <label>年1回の家計メンテナンスをしている</label>
+                   <input type="checkbox" class="check-item" id="check4-8">
+                   <label for="check4-8">年1回の家計メンテナンスをしている</label>
                </div>
                <div class="checklist-item">
-                   <input type="checkbox" class="check-item">
-                   <label>月5万円以上の赤字が続く口座の仕組みはない</label>
+                   <input type="checkbox" class="check-item" id="check4-9">
+                   <label for="check4-9">月5万円以上の赤字が続く口座の仕組みはない</label>
                </div>
                <div class="checklist-item">
-                   <input type="checkbox" class="check-item">
-                   <label>「お金の流れ」を家族が共有できている</label>
+                   <input type="checkbox" class="check-item" id="check4-10">
+                   <label for="check4-10">「お金の流れ」を家族が共有できている</label>
                </div>
            </div>
        </section>
@@ -523,7 +546,7 @@
                    <h4>0〜10個</h4>
                    <p><strong>まずは「見えない不安」が大きい時期。<br>家計の見える化が最優先。</strong></p>
                    <p>何から手をつけたらいいかわからない状態かもしれません。まずは現状を把握することから始めましょう。</p>
-                   <a href="https://coconala.com/services/3957682" class="cta-button">改善の第一歩へ</a>
+                   <a href="https://coconala.com/services/3957682" class="cta-button" target="_blank" rel="noopener noreferrer">改善の第一歩へ</a>
                </div>
 
                <div class="result-card">
@@ -531,7 +554,7 @@
                    <h4>11〜20個</h4>
                    <p><strong>整える準備段階。<br>固定費と仕組み化で一気にラクに。</strong></p>
                    <p>基礎はできています。固定費の見直しや自動化の仕組みを取り入れることで、貯金体質へ近づけます。</p>
-                   <a href="https://coconala.com/services/3957682" class="cta-button">土台を整える</a>
+                   <a href="https://coconala.com/services/3957682" class="cta-button" target="_blank" rel="noopener noreferrer">土台を整える</a>
                </div>
 
                <div class="result-card">
@@ -539,7 +562,7 @@
                    <h4>21〜30個</h4>
                    <p><strong>家計の質を高めるフェーズ。<br>未来設計まで整えると家計が軽くなります。</strong></p>
                    <p>かなり管理できています。これからは長期的な視点で、ライフプランに合わせた資金計画を立てましょう。</p>
-                   <a href="https://coconala.com/services/3957708" class="cta-button">未来設計に進む</a>
+                   <a href="https://coconala.com/services/3957708" class="cta-button" target="_blank" rel="noopener noreferrer">未来設計に進む</a>
                </div>
 
                <div class="result-card">
@@ -547,7 +570,7 @@
                    <h4>31〜40個</h4>
                    <p><strong>基礎も感情管理も整っている状態。<br>未来の家計設計が次のステップ。</strong></p>
                    <p>素晴らしい状態です！今の状態を維持しつつ、投資や資産運用など、お金を「増やす」ステージへ。</p>
-                   <a href="https://coconala.com/services/3957708" class="cta-button">次のステージへ</a>
+                   <a href="https://coconala.com/services/3957708" class="cta-button" target="_blank" rel="noopener noreferrer">次のステージへ</a>
                </div>
            </div>
        </section>
