@@ -356,7 +356,7 @@
            <p>当てはまる項目にチェックを入れてください。</p>
 
            <div class="score-display">
-               現在のスコア: <span id="score">0</span> / 40
+               結果スコア: <span id="score">0</span> / 40
            </div>
 
            <div class="checklist-category">
@@ -542,6 +542,12 @@
        <section class="section" id="results">
            <h2>診断結果</h2>
            <p>チェック数を合計して、あなたのレベルを確認しましょう。</p>
+          <button class="cta-button" type="button" id="sendLineButton">
+             診断結果をLINEで送る
+         </button>
+         <p style="margin-top: 10px; font-size: 0.9em; color: #4a5568;">
+          ※ボタンを押すとLINEアプリが立ち上がり、「合計スコア」と「アドバイス」が入力された状態になります。
+         </p>
 
            <div class="results-grid">
                <div class="result-card">
@@ -592,18 +598,85 @@
    </footer>
 
    <script>
-       // チェックボックスのスコア計算機能
-       const checkboxes = document.querySelectorAll('.check-item');
-       const scoreDisplay = document.getElementById('score');
+    // チェックボックスのスコア計算機能
+    const checkboxes = document.querySelectorAll('.check-item');
+    const scoreDisplays = document.querySelectorAll('.score-value');
+    const sendLineButton = document.getElementById('sendLineButton');
 
-       checkboxes.forEach(checkbox => {
-           checkbox.addEventListener('change', updateScore);
-       });
+    checkboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', updateScore);
+    });
 
-       function updateScore() {
-           const checkedCount = document.querySelectorAll('.check-item:checked').length;
-           scoreDisplay.textContent = checkedCount;
-       }
+    function updateScore() {
+        const checkedCount = document.querySelectorAll('.check-item:checked').length;
+        // 2か所のスコア表示をまとめて更新
+        scoreDisplays.forEach(el => {
+            el.textContent = checkedCount;
+        });
+    }
+
+    // スコアからレベルとアドバイスを返す関数
+    function getLevelInfo(score) {
+        if (score <= 10) {
+            return {
+                label: 'Level 1（入門）',
+                advice: 'まずは「現状を知ること」から始めましょう。家計簿アプリや口座の整理など、見える化を一つずつ整えていくことで、不安が少しずつ小さくなっていきます。'
+            };
+        } else if (score <= 20) {
+            return {
+                label: 'Level 2（基礎）',
+                advice: '土台づくりはかなりできています。次は、固定費の見直しや「自動で貯まる仕組み」を整えると、ムリなく毎月の黒字が増えていきます。'
+            };
+        } else if (score <= 30) {
+            return {
+                label: 'Level 3（実務）',
+                advice: '家計の管理はとても良い状態です。これからは教育費や老後資金など、10年先を見据えたライフプランをざっくり描いてみると、さらに安心感が高まります。'
+            };
+        } else {
+            return {
+                label: 'Level 4（上級者）',
+                advice: '家計も感情面も、かなり整っている状態です。今のバランスを大切にしながら、投資や資産運用など「お金に働いてもらう」ステップも検討してみましょう。'
+            };
+        }
+    }
+
+    // LINE送信用処理
+    if (sendLineButton) {
+        sendLineButton.addEventListener('click', function () {
+            const scoreText = scoreDisplays[0]?.textContent || '0';
+            const score = parseInt(scoreText, 10) || 0;
+
+            const levelInfo = getLevelInfo(score);
+
+            // ここを自分の公式LINEのIDに変更してください（例：@familymoney）
+            const lineId = '@074vjpmt';
+
+            const lines = [
+                '家計診断チェックシートの結果を送ります。',
+                '',
+                '■合計スコア',
+                score + ' / 40',
+                '',
+                '■診断レベル',
+                levelInfo.label,
+                '',
+                '■ひとことアドバイス',
+                levelInfo.advice,
+                '',
+                '※この結果をもとに、我が家に合った家計の整え方を一緒に考えていきたいです。'
+            ];
+
+            const message = lines.join('\n');
+
+            // LINE URLスキーム（公式アカウントへメッセージ入力済みで遷移）
+            const url = 'https://line.me/R/oaMessage/'
+                + encodeURIComponent(lineId)
+                + '/?'
+                + encodeURIComponent(message);
+
+            window.location.href = url;
+        });
+    }
    </script>
 </body>
 </html>
