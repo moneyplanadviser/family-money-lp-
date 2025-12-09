@@ -304,6 +304,18 @@
              transform: translateY(-3px);
              box-shadow: 0 14px 30px rgba(102, 126, 234, 0.6);
          }
+         /* LINE受け取りボタン周りのレイアウト */
+         .line-cta-wrapper {
+             text-align: center;
+             margin: 24px 0 8px;
+         }
+         
+         .line-cta-note {
+             margin-top: 8px;
+             font-size: 0.85em;
+             color: #4a5568;
+         }
+      
        @media (max-width: 768px) {
            .hero h1 {
                font-size: 1.8em;
@@ -559,14 +571,17 @@
 
        <section class="section" id="results">
            <h2>診断結果</h2>
-           <p>チェック数を合計して、あなたのレベルを確認しましょう。</p>
-         <button class="cta-button cta-button--large" type="button" id="sendLineButton">
-             診断結果をLINEで受け取る
-         </button>
-         <p style="margin-top: 10px; font-size: 0.9em; color: #4a5568;">
-          ※ボタンを押すとLINEアプリが立ち上がり、「合計スコア」と「アドバイス」が入力された状態になります。
-         </p>
-
+            <p>チェック数を合計して、診断結果をLINEで受け取りましょう。</p>
+            
+            <div class="line-cta-wrapper">
+                <button class="cta-button cta-button--large" type="button" id="sendLineButton">
+                    診断結果をLINEで受け取る
+                </button>
+                <p class="line-cta-note">
+                    ※ボタンを押すとLINEアプリが立ち上がり、「合計スコア」と「アドバイス」が入力された状態になります。
+                </p>
+            </div>
+<!--
            <div class="results-grid">
                <div class="result-card">
                    <span class="level-badge level-1">Level 1 (入門)</span>
@@ -602,7 +617,7 @@
            </div>
        </section>
    </div>
-
+-->
    <footer>
        <div class="footer-content">
            <div class="footer-brand">Family Money</div>
