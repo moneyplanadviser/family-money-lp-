@@ -173,6 +173,73 @@
       border-top: 2px solid var(--border);
     }
     #result.show { display: block; }
+    .level-indicator {
+      margin-bottom: 28px;
+      padding: 0 8px;
+    }
+    .level-track {
+      position: relative;
+      height: 32px;
+      background: var(--bg-subtle);
+      border-radius: 4px;
+      display: flex;
+      align-items: stretch;
+      overflow: visible;
+    }
+    .level-markers {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      justify-content: space-between;
+      padding: 0 4px;
+      pointer-events: none;
+    }
+    .level-markers span {
+      width: 2px;
+      background: var(--border);
+      height: 100%;
+      border-radius: 1px;
+    }
+    .level-markers span:first-child,
+    .level-markers span:last-child { background: var(--text); }
+    .level-arrow-wrap {
+      position: absolute;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      height: 20px;
+      margin-left: 8px;
+      width: calc(100% - 16px);
+    }
+    .level-arrow {
+      height: 100%;
+      background: #e67e22;
+      border-radius: 2px 10px 10px 2px;
+      position: relative;
+      min-width: 12px;
+      box-shadow: 0 1px 3px rgba(230,126,34,0.3);
+      transition: width 0.4s ease-out;
+    }
+    .level-arrow::after {
+      content: "";
+      position: absolute;
+      right: -6px;
+      top: 50%;
+      transform: translateY(-50%);
+      border: 10px solid transparent;
+      border-left-color: #e67e22;
+      border-right: none;
+    }
+    .level-labels {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 6px;
+      padding: 0 4px;
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+    .level-labels span { min-width: 24px; text-align: center; }
     #result .level-badge {
       display: inline-block;
       padding: 6px 14px;
@@ -243,7 +310,7 @@
       <p class="subtitle content-width">40項目のチェックで、今の家計の状態がわかります。当てはまる項目にチェックを入れてください。</p>
     </header>
 
-    <img class="hero-img" src="https://images.unsplash.com/photo-1559526324-4b87b5e36e44?w=1080&q=80" alt="家計を整える" loading="lazy" width="1080" height="463">
+    <img class="hero-img" src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1080&q=80" alt="家計分析" loading="lazy" width="1080" height="463">
 
     <div class="score-display" id="scoreDisplay">
       <span id="scoreText">チェック数: <strong>0</strong> / 40</span>
@@ -327,6 +394,19 @@
     </div>
 
     <div id="result">
+      <div class="level-indicator">
+        <div class="level-track">
+          <div class="level-markers">
+            <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+          </div>
+          <div class="level-arrow-wrap">
+            <div class="level-arrow" id="levelArrow" style="width: 33%;"></div>
+          </div>
+        </div>
+        <div class="level-labels">
+          <span>-2</span><span>-1</span><span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span>
+        </div>
+      </div>
       <span class="level-badge" id="levelBadge">レベル0</span>
       <h3 id="levelTitle">借金なしで生活できる</h3>
       <p class="desc content-width" id="levelDesc"></p>
@@ -366,6 +446,7 @@
     const scoreText = document.getElementById('scoreText');
     const blockerText = document.getElementById('blockerText');
     const resultDiv = document.getElementById('result');
+    const levelArrow = document.getElementById('levelArrow');
     const levelBadge = document.getElementById('levelBadge');
     const levelTitle = document.getElementById('levelTitle');
     const levelDesc = document.getElementById('levelDesc');
@@ -410,6 +491,9 @@
 
     function showResult(level, pointCount) {
       const info = LEVELS[level];
+      const levelNum = parseInt(level, 10);
+      const arrowWidth = Math.max(((levelNum + 3) / 9) * 100, 8);
+      levelArrow.style.width = arrowWidth + '%';
       levelBadge.textContent = `レベル${level}`;
       levelTitle.textContent = info.title;
       levelDesc.textContent = info.desc;
