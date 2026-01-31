@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>家計管理レベル診断｜Family Money</title>
+  <meta name="description" content="40項目のチェックで、あなたの家計管理レベルを診断。ブロッカー項目とポイントで、-2〜6の9段階で今の状態がわかります。" />
+  <meta property="og:title" content="家計管理レベル診断｜Family Money" />
+  <meta property="og:description" content="40項目のチェックで、あなたの家計管理レベルを診断。今の状態と次のステップがわかります。" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://moneyplanadviser.github.io/family-money-lp-/" />
+  <style>
+    :root {
+      --primary: #c9a227;
+      --primary-dark: #a68821;
+      --bg: #fff;
+      --bg-alt: #f8f7f5;
+      --text: #2d2a26;
+      --muted: #6b6560;
+      --danger: #c0392b;
+      --radius: 12px;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Yu Gothic", "メイリオ", sans-serif;
+      color: var(--text);
+      background: var(--bg);
+      line-height: 1.7;
+    }
+    .container {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 24px 20px 60px;
+    }
+    h1 {
+      font-size: 1.5rem;
+      margin: 0 0 8px;
+      color: var(--primary-dark);
+    }
+    .subtitle {
+      font-size: 0.9rem;
+      color: var(--muted);
+      margin-bottom: 24px;
+    }
+    section {
+      background: var(--bg-alt);
+      border-radius: var(--radius);
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+    section h2 {
+      font-size: 1rem;
+      margin: 0 0 16px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid var(--primary);
+    }
+    .blocker-note {
+      font-size: 0.85rem;
+      color: var(--danger);
+      margin-bottom: 12px;
+      padding: 8px 12px;
+      background: #fff5f5;
+      border-radius: 8px;
+      border-left: 4px solid var(--danger);
+    }
+    .check-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(0,0,0,0.06);
+      cursor: pointer;
+    }
+    .check-item:last-child { border-bottom: none; }
+    .check-item:hover { background: rgba(255,255,255,0.5); border-radius: 8px; }
+    .check-item input[type="checkbox"] {
+      margin-top: 4px;
+      width: 20px;
+      height: 20px;
+      flex-shrink: 0;
+      cursor: pointer;
+    }
+    .check-item label {
+      flex: 1;
+      cursor: pointer;
+      font-size: 0.95rem;
+    }
+    .score-display {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: var(--bg);
+      padding: 16px;
+      margin: -24px -20px 24px -20px;
+      padding: 16px 20px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      font-weight: 600;
+      font-size: 1rem;
+    }
+    .score-display .blocker-active {
+      color: var(--danger);
+    }
+    #result {
+      display: none;
+      margin-top: 32px;
+      padding: 24px;
+      background: linear-gradient(135deg, #faf8f4 0%, #f5f0e8 100%);
+      border-radius: var(--radius);
+      border: 2px solid var(--primary);
+    }
+    #result.show { display: block; }
+    #result h3 {
+      margin: 0 0 8px;
+      font-size: 1.3rem;
+      color: var(--primary-dark);
+    }
+    #result .level-badge {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 999px;
+      background: var(--primary);
+      color: #fff;
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+    #result .desc { margin: 12px 0; font-size: 0.95rem; }
+    #result .next-step {
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top: 1px dashed var(--muted);
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+    .btn-line {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 20px;
+      padding: 14px 24px;
+      background: #06c755;
+      color: #fff !important;
+      border-radius: 999px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1rem;
+      border: none;
+      cursor: pointer;
+    }
+    .btn-line:hover { opacity: 0.9; text-decoration: none; }
+    .point-items { display: block; }
+    .point-items.hidden { display: none; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>家計管理レベル診断</h1>
+    <p class="subtitle">40項目のチェックで、今の家計の状態がわかります。当てはまる項目にチェックを入れてください。</p>
+
+    <div class="score-display" id="scoreDisplay">
+      <span id="scoreText">チェック数: <strong>0</strong> / 40</span>
+      <span id="blockerText" class="blocker-active" style="display:none;">※ブロッカー該当のため、レベル確定</span>
+    </div>
+
+    <!-- ブロッカー項目 -->
+    <section>
+      <h2>【重要】まずこちらを確認</h2>
+      <p class="blocker-note">以下のいずれかに当てはまる場合、この時点でレベルが確定します（1つでもチェックで確定）</p>
+      <div class="check-item">
+        <input type="checkbox" id="b1" data-blocker="1" />
+        <label for="b1">住宅ローン以外の借入が<strong>200万円以上</strong>ある</label>
+      </div>
+      <div class="check-item">
+        <input type="checkbox" id="b2" data-blocker="2" />
+        <label for="b2">借入が50万円以上200万未満で、<strong>1年以内に返済完了の見込みがない</strong></label>
+      </div>
+    </section>
+
+    <!-- ポイント項目 -->
+    <div id="pointItems" class="point-items">
+      <section>
+        <h2>借金・土台</h2>
+        <div class="check-item"><input type="checkbox" id="p1" data-point /><label for="p1">住宅ローン以外の借入がない</label></div>
+        <div class="check-item"><input type="checkbox" id="p2" data-point /><label for="p2">借金の総額を把握している</label></div>
+        <div class="check-item"><input type="checkbox" id="p3" data-point /><label for="p3">借金の返済計画を立てている</label></div>
+        <div class="check-item"><input type="checkbox" id="p4" data-point /><label for="p4">1年以内に借金をゼロにできる見込みがある（借金がある場合）</label></div>
+        <div class="check-item"><input type="checkbox" id="p5" data-point /><label for="p5">クレジットカードのリボ払いをしていない</label></div>
+        <div class="check-item"><input type="checkbox" id="p6" data-point /><label for="p6">キャッシングを使っていない</label></div>
+        <div class="check-item"><input type="checkbox" id="p7" data-point /><label for="p7">カードの支払いは毎月フル払いしている</label></div>
+      </section>
+      <section>
+        <h2>家計の把握</h2>
+        <div class="check-item"><input type="checkbox" id="p8" data-point /><label for="p8">家計簿や家計管理アプリをつけている</label></div>
+        <div class="check-item"><input type="checkbox" id="p9" data-point /><label for="p9">月々の収入を答えられる</label></div>
+        <div class="check-item"><input type="checkbox" id="p10" data-point /><label for="p10">月々の支出を答えられる</label></div>
+        <div class="check-item"><input type="checkbox" id="p11" data-point /><label for="p11">固定費の内訳を把握している</label></div>
+        <div class="check-item"><input type="checkbox" id="p12" data-point /><label for="p12">変動費の内訳を把握している</label></div>
+        <div class="check-item"><input type="checkbox" id="p13" data-point /><label for="p13">去年1年間の収入を答えられる</label></div>
+        <div class="check-item"><input type="checkbox" id="p14" data-point /><label for="p14">去年1年間の支出を答えられる</label></div>
+        <div class="check-item"><input type="checkbox" id="p15" data-point /><label for="p15">去年いくら貯まったか答えられる</label></div>
+        <div class="check-item"><input type="checkbox" id="p16" data-point /><label for="p16">今の貯金残高を答えられる</label></div>
+        <div class="check-item"><input type="checkbox" id="p17" data-point /><label for="p17">家計の全体像を把握できている</label></div>
+      </section>
+      <section>
+        <h2>貯金・設計</h2>
+        <div class="check-item"><input type="checkbox" id="p18" data-point /><label for="p18">毎月決まった額を貯金している</label></div>
+        <div class="check-item"><input type="checkbox" id="p19" data-point /><label for="p19">年間で収入の5%以上貯金できている</label></div>
+        <div class="check-item"><input type="checkbox" id="p20" data-point /><label for="p20">年間で収入の10%以上貯金できている</label></div>
+        <div class="check-item"><input type="checkbox" id="p21" data-point /><label for="p21">貯金の目的が明確にある</label></div>
+        <div class="check-item"><input type="checkbox" id="p22" data-point /><label for="p22">緊急予備資金がある（生活費3ヶ月分以上）</label></div>
+        <div class="check-item"><input type="checkbox" id="p23" data-point /><label for="p23">給料が入ったら先に貯金する仕組みがある</label></div>
+        <div class="check-item"><input type="checkbox" id="p24" data-point /><label for="p24">貯金口座を生活費口座と分けている</label></div>
+        <div class="check-item"><input type="checkbox" id="p25" data-point /><label for="p25">年間の貯金目標を立てている</label></div>
+        <div class="check-item"><input type="checkbox" id="p26" data-point /><label for="p26">貯金目標を達成したことがある（直近3年以内）</label></div>
+        <div class="check-item"><input type="checkbox" id="p27" data-point /><label for="p27">無駄遣いを減らす工夫をしている</label></div>
+      </section>
+      <section>
+        <h2>生活・満足感</h2>
+        <div class="check-item"><input type="checkbox" id="p28" data-point /><label for="p28">お金のことで家族と争わない</label></div>
+        <div class="check-item"><input type="checkbox" id="p29" data-point /><label for="p29">欲しいものを我慢しすぎていない</label></div>
+        <div class="check-item"><input type="checkbox" id="p30" data-point /><label for="p30">生活に満足感がある</label></div>
+        <div class="check-item"><input type="checkbox" id="p31" data-point /><label for="p31">将来のお金への不安が少ない</label></div>
+        <div class="check-item"><input type="checkbox" id="p32" data-point /><label for="p32">お金の相談ができる相手がいる</label></div>
+        <div class="check-item"><input type="checkbox" id="p33" data-point /><label for="p33">お金のことでストレスをあまり感じない</label></div>
+      </section>
+      <section>
+        <h2>長期計画</h2>
+        <div class="check-item"><input type="checkbox" id="p34" data-point /><label for="p34">10年後の貯金目標がある</label></div>
+        <div class="check-item"><input type="checkbox" id="p35" data-point /><label for="p35">2000万円貯める計画を立てている</label></div>
+        <div class="check-item"><input type="checkbox" id="p36" data-point /><label for="p36">計画通りに貯金が進んでいる</label></div>
+        <div class="check-item"><input type="checkbox" id="p37" data-point /><label for="p37">老後資金の目安を把握している</label></div>
+        <div class="check-item"><input type="checkbox" id="p38" data-point /><label for="p38">資産形成のための準備をしている（貯金・投資など）</label></div>
+      </section>
+    </div>
+
+    <div id="result">
+      <span class="level-badge" id="levelBadge">レベル0</span>
+      <h3 id="levelTitle">借金なしで生活できる</h3>
+      <p class="desc" id="levelDesc"></p>
+      <p class="next-step" id="nextStep"></p>
+      <a href="#" id="lineShare" class="btn-line" target="_blank" rel="noopener">診断結果をLINEで共有</a>
+    </div>
+  </div>
+
+  <script>
+    const LINE_URL = 'https://lin.ee/XAtaWZF';
+
+    const LEVELS = {
+      '-2': { title: '借金返済の見通しを立てられない', desc: '200万円以上の借入がある状態です。返済計画の見直しや専門機関への相談を検討しましょう。', next: '返済計画の見直し、消費生活センター・司法書士などへの相談' },
+      '-1': { title: '1年以内に借金を完済できる見込みがある', desc: '借入はあるものの、短期で返済完了の見込みがある状態です。計画通りに返済を進めましょう。', next: '計画通り返済を継続しつつ、貯金の土台づくりを検討' },
+      '0':  { title: '借金なしで生活できる', desc: '借金のない状態です。家計の見える化を進め、貯金の基盤を整えていきましょう。', next: '家計簿や収支の把握から始める' },
+      '1':  { title: '家計の現状を把握できていない', desc: '家計が見えない状態です。まずは収入と支出を可視化することから始めましょう。', next: '家計簿をつける、月々の収支を把握する' },
+      '2':  { title: '家計簿をつけられるが、全体像を把握できていない', desc: '家計簿はあるものの、全体像が見えていない状態です。年間の収支を振り返ってみましょう。', next: '去年の収支をまとめる、貯金額を把握する' },
+      '3':  { title: '月々の収支は把握できるが、年間の貯蓄額を答えられない', desc: '月々は把握できているものの、年間の貯蓄額がわからない状態です。年間目標を立ててみましょう。', next: '年間の貯金目標を立てる、収入の10%貯金を目指す' },
+      '4':  { title: '年間で収入の10%を貯金できる', desc: '年間で収入の10%を貯金できている状態です。生活の満足感や長期計画の検討へ進みましょう。', next: '生活の満足感を高める、10年後の計画を立てる' },
+      '5':  { title: 'お金の心配なく、生活を楽しめる', desc: 'お金の心配なく生活を楽しめている状態です。10年後の資産形成計画を検討しましょう。', next: '10年後に2000万円貯まる計画を立てる' },
+      '6':  { title: '10年後に2000万円貯まる計画を実行できる', desc: '長期計画を実行できている状態です。計画の維持・見直しを継続しましょう。', next: '計画の定期的な見直し、維持' }
+    };
+
+    const POINT_RANGES = [
+      { max: 8,  level: '0' },
+      { max: 12, level: '1' },
+      { max: 16, level: '2' },
+      { max: 20, level: '3' },
+      { max: 24, level: '4' },
+      { max: 28, level: '5' },
+      { max: 38, level: '6' }
+    ];
+
+    const b1 = document.getElementById('b1');
+    const b2 = document.getElementById('b2');
+    const pointItems = document.getElementById('pointItems');
+    const scoreText = document.getElementById('scoreText');
+    const blockerText = document.getElementById('blockerText');
+    const resultDiv = document.getElementById('result');
+    const levelBadge = document.getElementById('levelBadge');
+    const levelTitle = document.getElementById('levelTitle');
+    const levelDesc = document.getElementById('levelDesc');
+    const nextStep = document.getElementById('nextStep');
+    const lineShare = document.getElementById('lineShare');
+
+    const pointCheckboxes = document.querySelectorAll('[data-point]');
+
+    function getBlockerLevel() {
+      if (b1.checked) return '-2';
+      if (b2.checked) return '-1';
+      return null;
+    }
+
+    function getPointCount() {
+      return Array.from(pointCheckboxes).filter(cb => cb.checked).length;
+    }
+
+    function getLevelFromPoints(count) {
+      for (const r of POINT_RANGES) {
+        if (count <= r.max) return r.level;
+      }
+      return '6';
+    }
+
+    function update() {
+      const blockerLevel = getBlockerLevel();
+
+      if (blockerLevel) {
+        blockerText.style.display = 'inline';
+        scoreText.innerHTML = `レベル<strong>${blockerLevel}</strong>確定（ブロッカー該当のため、ポイント集計は行いません）`;
+        showResult(blockerLevel);
+      } else {
+        blockerText.style.display = 'none';
+        const pointCount = getPointCount();
+        const total = 2 + pointCount;
+        scoreText.innerHTML = `チェック数: <strong>${pointCount}</strong> / 38（ポイント項目）`;
+        const level = getLevelFromPoints(pointCount);
+        showResult(level, pointCount);
+      }
+    }
+
+    function showResult(level, pointCount) {
+      const info = LEVELS[level];
+      levelBadge.textContent = `レベル${level}`;
+      levelTitle.textContent = info.title;
+      levelDesc.textContent = info.desc;
+      nextStep.textContent = `次のステップ: ${info.next}`;
+
+      const text = `【家計管理レベル診断】レベル${level}: ${info.title}`;
+      const lineMsg = encodeURIComponent(text + '\n\n' + '診断はこちら: ' + location.href);
+      lineShare.href = `https://line.me/R/msg/text/?${lineMsg}`;
+
+      resultDiv.classList.add('show');
+      resultDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+
+    b1.addEventListener('change', () => {
+      if (b1.checked) b2.checked = false;
+      update();
+    });
+    b2.addEventListener('change', () => {
+      if (b2.checked) b1.checked = false;
+      update();
+    });
+    pointCheckboxes.forEach(cb => cb.addEventListener('change', update));
+
+    update();
+  </script>
+</body>
+</html>
